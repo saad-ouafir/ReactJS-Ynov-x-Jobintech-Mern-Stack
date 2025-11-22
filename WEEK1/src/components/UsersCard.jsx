@@ -4,13 +4,12 @@ import useFetch from "../hooks/useFetch";
 import userTimer from "../hooks/useTimer";
 
 export default function UsersCard() {
-  const { data, loading } = useFetch(
+  const { data, loading, error } = useFetch(
     "https://jsonplaceholder.typicode.com/users"
   );
 
   const [users, setUsers] = useState([]);
   const [searched, setSearch] = useState("");
-
   useEffect(() => {
     if (data) {
       setUsers(data);
@@ -24,12 +23,37 @@ export default function UsersCard() {
 
   const filteredUsers = useFilterData(users, searched);
 
+  if (loading) {
+    return (
+      <div>
+        <h1>Chargement ...</h1>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col m-12">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+          <h2 className="font-bold text-lg mb-2">Error !</h2>
+          <p className="text-red-600">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section className="mt-4">
       <div className="flex justify-between items-center my-8 mx-12">
         <h1 className="text-3xl font-bold">Liste des utilisateurs</h1>
         <h2 className="bg-blue-600 text-white p-2 rounded-md">
-          Temps Ecoule : <span className="font-bold ">{userTimer()} s</span>
+          Temps Ecoule : <span className="font-bold ">{timer} s</span>
         </h2>
         <div className="flex justify-between items-center gap-4">
           <div className="">
@@ -65,7 +89,9 @@ export default function UsersCard() {
               <p>{user.address.suite}</p>
               <p>{user.address.city}</p>
               <p>{user.address.zipcode}</p>
-              <p>{user.address.geo.lat + user.address.geo.lng}</p>
+              <p>
+                Lat: {user.address.geo.lat} | Lng: {user.address.geo.lng}
+              </p>
             </div>
           </div>
         ))}
@@ -73,5 +99,3 @@ export default function UsersCard() {
     </section>
   );
 }
-
-export let details;

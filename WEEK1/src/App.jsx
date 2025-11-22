@@ -5,7 +5,6 @@ import UsersCard from "./components/UsersCard";
 import NavBar from "./components/NavBar";
 
 export default function App() {
-  // if (loading) return <div>Chargement...</div>;
 
   return (
     <>

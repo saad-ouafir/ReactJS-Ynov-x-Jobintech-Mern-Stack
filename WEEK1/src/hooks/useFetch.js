@@ -9,8 +9,12 @@ export default function useFetch(url) {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
-        const data = await response.json();
-        setUsers(data);
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data);
+        } else {
+          setError("Failed to fetch data");
+        }
       } catch (err) {
         setError(err.message);
       } finally {
