@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Light mode (default) */
+body {
+  background-color: white;
+  color: black;
+}
+
+/* Dark mode */
+.dark body {
+  background-color: #373739;
+  color: white;
+}
+
+.dark .bg-gray-200 {
+  background-color: #1b1c1d;
+  border: solid #1b1c1d;
+  color: white !important;
+}
