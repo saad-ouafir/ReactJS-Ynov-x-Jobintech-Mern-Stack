@@ -1,0 +1,16 @@
+const users = [
+  {
+    id: 1,
+    email: "admin@mail.com",
+    password: 1234,
+    role: "admin",
+  },
+  {
+    id: 1,
+    email: "editor@mail.com",
+    password: 1234,
+    role: "editor",
+  },
+];
+
+export default users;
