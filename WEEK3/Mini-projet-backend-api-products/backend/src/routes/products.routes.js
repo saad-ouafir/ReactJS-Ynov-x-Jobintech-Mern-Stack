@@ -1,31 +1,42 @@
 const express = require("express");
 const router = express.Router();
-const ProductModel = require("../models/products.model");
+const ProductController = require("../controllers/product.controller");
+const {
+  validateProductCreation,
+  validateProductUpdate,
+  validateProductId,
+} = require("../middleware/validation");
 
-router.get("/products", async (req, res) => {
-  try {
-    const productModel = new ProductModel();
-    const products = await productModel.getProducts();
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// GET /api/products - Get all products with pagination and filtering
+router.get("/products", ProductController.getProducts);
 
-router.get("/products/:id", (req, res) => {
-  res.send("product");
-});
+// GET /api/products/:id - Get a single product by ID
+router.get(
+  "/products/:id",
+  validateProductId,
+  ProductController.getProductById
+);
 
-router.post("/products", (req, res) => {
-  res.send("create product");
-});
+// POST /api/products - Create a new product
+router.post(
+  "/products",
+  validateProductCreation,
+  ProductController.createProduct
+);
 
-router.put("/products/:id", (req, res) => {
-  res.send("update product");
-});
+// PUT /api/products/:id - Update a product
+router.put(
+  "/products/:id",
+  validateProductId,
+  validateProductUpdate,
+  ProductController.updateProduct
+);
 
-router.delete("/products/:id", (req, res) => {
-  res.send("delete product");
-});
+// DELETE /api/products/:id - Delete a product
+router.delete(
+  "/products/:id",
+  validateProductId,
+  ProductController.deleteProduct
+);
 
 module.exports = router;
